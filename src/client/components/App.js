@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import Form from './form/Form';
 import axios from 'axios';
+import './App.css';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       isLoaded: false,
       items: []
     };
-    //Binding fetch function to component's this
+    //Binding functions to component's this
     this.fetchFiles = this.fetchFiles.bind(this);
+    this.deleteFile = this.deleteFile.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +21,9 @@ class App extends Component {
   }
 
   fetchFiles() {
+    this.setState({
+      isLoaded: false
+    });
     axios.get('/list')
     .then((response) => {
       var items = response.data.entries;
@@ -41,18 +46,37 @@ class App extends Component {
     })
   }
 
+  deleteFile(item) {
+    this.setState({
+      isLoaded: false
+    });
+    axios.get('/delete'+ item.path_lower)
+    .then((response) => {
+      //Not the right, but the easiest way to get state updated after deleting a file
+      //I'll refactore this if I'll have a time
+      this.fetchFiles()
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   render() {
     const { isLoaded, items } = this.state;
     if (!isLoaded) {
-      return <div>Loading...</div>;
+      return <div className="loading"><i className="fa fa-sync-alt"></i></div>;
     } else {
       return (
         <div className="container">
-          <Form />
+          <Form fetchFiles={this.fetchFiles}/>
+          <h1>Your uploaded files</h1>
           <ul>
             {items.map(item => (
               <li key={item.id}>
                 <a href={item.link}>{item.name}</a>
+                <span className="delete" onClick={() => this.deleteFile(item)}>
+                  <i className="fa fa-times"></i>
+                </span>
               </li>
             ))}
           </ul>

@@ -28,8 +28,8 @@ app.get('/list', (req, res) => {
 app.get('/download/:path', (req, res) => {
     var path = '/' + req.params.path;
     dbx.filesGetTemporaryLink({ path: path })
-        .then(function (data) {
-            res.json(data.link)
+        .then(function (response) {
+            res.json(response.link)
         })
         .catch(function (error) {
             console.error(error);
@@ -39,6 +39,17 @@ app.get('/download/:path', (req, res) => {
 app.post('/upload', upload.single('file'), (req, res) => {
     var file = req.file;
     dbx.filesUpload({ path: '/' + file.originalname, contents: file.buffer })
+        .then(function (response) {
+            res.json(response);
+        })
+        .catch(function (error) {
+            res.json(error);
+        });
+});
+//Delete file 
+app.get('/delete/:path', (req, res) => {
+    var path = '/' + req.params.path;
+    dbx.filesDelete({ path: path })
         .then(function (response) {
             res.json(response);
         })

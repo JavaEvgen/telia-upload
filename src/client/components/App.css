@@ -1,0 +1,54 @@
+.loading {
+    text-align: center;
+}
+
+.loading i.fa {
+    color: #000;
+    animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+.container {
+    position: absolute;
+    width: 400px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.container ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.container ul li {
+    padding: 10px 0;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    box-shadow: 2px 1px 9px grey;
+    background: linear-gradient(to left, #feac5e, #c779d0, #4bc0c8);
+    margin: 4px 0px;
+}
+
+.container ul li a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Helvetica;
+}
+
+.container ul li span.delete {
+    position: absolute;
+    right: -27px;
+    color: red;
+    font-size: 21px;
+    text-shadow: 3px 0px 5px grey;
+    cursor: pointer;
+}

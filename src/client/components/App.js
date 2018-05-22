@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Form from './form/Form';
 import axios from 'axios';
 
 
@@ -46,13 +47,16 @@ class App extends Component {
       return <div>Loading...</div>;
     } else {
       return (
-        <ul>
-          {items.map(item => (
-            <li key={item.id}>
-              <a href={item.link}>{item.name}</a>
-            </li>
-          ))}
-        </ul>
+        <div className="container">
+          <Form />
+          <ul>
+            {items.map(item => (
+              <li key={item.id}>
+                <a href={item.link}>{item.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
       );
     }
   }

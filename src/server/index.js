@@ -2,6 +2,7 @@ var express = require('express');
 //Using multer for getting file/files from form
 var multer = require('multer');
 var upload = multer();
+
 var app = express();
 
 //Dropbox variables and dependencies
@@ -37,13 +38,12 @@ app.get('/download/:path', (req, res) => {
 //Upload file
 app.post('/upload', upload.single('file'), (req, res) => {
     var file = req.file;
-    console.log(file);
-    dbx.filesUpload({ path: '/' + file.originalname, contents: file })
+    dbx.filesUpload({ path: '/' + file.originalname, contents: file.buffer })
         .then(function (response) {
-            console.log(response);
+            res.json(response);
         })
         .catch(function (error) {
-            console.error(error);
+            res.json(error);
         });
 });
 
